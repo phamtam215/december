@@ -1,7 +1,41 @@
 {
+  /*
+    TYPESCRIPT CONFIGURATION - ROOT
+    ================================
+    File TypeScript config chính của project
+    
+    TypeScript là:
+    - Superset của JavaScript với static typing
+    - Compile-time type checking để catch bugs sớm
+    - Better IntelliSense và refactoring support
+    - Modern JavaScript features support
+  */
+
+  // Không include files trực tiếp ở root level
   "files": [],
+
+  /*
+    PROJECT REFERENCES
+    ==================
+    Sử dụng TypeScript Project References để:
+    - Chia project thành multiple sub-projects
+    - Build performance tốt hơn với incremental compilation
+    - Clear separation giữa app code và build tooling
+  */
   "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+    { "path": "./tsconfig.app.json" }, // Config cho app source code
+    { "path": "./tsconfig.node.json" } // Config cho Node.js tooling (Vite, config files)
   ]
+
+  /*
+    ARCHITECTURE:
+    - tsconfig.json: Root config, references to sub-configs
+    - tsconfig.app.json: Config cho React app code trong src/
+    - tsconfig.node.json: Config cho build tools và config files
+    
+    Benefits:
+    - Faster compilation (chỉ compile phần thay đổi)
+    - Different settings cho different parts
+    - Better IDE performance
+  */
 }

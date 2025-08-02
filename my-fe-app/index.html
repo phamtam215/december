@@ -1,13 +1,90 @@
+<!-- 
+  HTML TEMPLATE - ENTRY POINT
+  ============================
+  File HTML chính của ứng dụng React
+  
+  Đây là Single Page Application (SPA):
+  - Chỉ có 1 HTML file
+  - React sẽ render toàn bộ UI vào element #root
+  - Navigation và routing được handle bởi JavaScript
+-->
+
 <!doctype html>
+<!-- HTML5 doctype declaration -->
+
 <html lang="en">
+<!-- Language attribute cho accessibility và SEO -->
+
   <head>
+    <!-- 
+      META TAGS
+      =========
+      Essential meta information cho browser và SEO
+    -->
+    
+    <!-- Character encoding - UTF-8 support Unicode -->
     <meta charset="UTF-8" />
+    
+    <!-- Favicon - icon hiển thị trên browser tab -->
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    
+    <!-- 
+      Viewport meta tag - QUAN TRỌNG cho responsive design
+      - width=device-width: làm cho width = device width
+      - initial-scale=1.0: zoom level ban đầu = 100%
+      - Đảm bảo responsive design hoạt động đúng trên mobile
+    -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Page title hiển thị trên browser tab -->
     <title>Vite + React + TS</title>
+    
+    <!-- 
+      ADDITIONAL META TAGS (có thể thêm):
+      <meta name="description" content="Your app description">
+      <meta name="keywords" content="react, typescript, vite">
+      <meta name="author" content="Your Name">
+      
+      OPEN GRAPH TAGS (cho social media sharing):
+      <meta property="og:title" content="Your App">
+      <meta property="og:description" content="Description">
+      <meta property="og:image" content="/og-image.jpg">
+    -->
   </head>
+  
   <body>
+    <!-- 
+      ROOT ELEMENT
+      ============
+      Đây là nơi React sẽ render toàn bộ ứng dụng
+    -->
     <div id="root"></div>
+    <!-- 
+      Element này sẽ được React "attach" vào thông qua:
+      createRoot(document.getElementById('root')!)
+      
+      Sau khi React render, DOM tree sẽ như:
+      <div id="root">
+        <div class="min-h-screen flex items-center justify-center bg-gray-100">
+          <form class="max-w-sm mx-auto p-6 bg-white rounded shadow space-y-4">
+            ... (LoginForm content)
+          </form>
+        </div>
+      </div>
+    -->
+    
+    <!-- 
+      MODULE SCRIPT
+      =============
+      Entry point của React application
+    -->
     <script type="module" src="/src/main.tsx"></script>
+    <!-- 
+      - type="module": Enable ES6 modules trong browser
+      - src="/src/main.tsx": Path đến file TypeScript chính
+      - Vite sẽ process file này và inject compiled JavaScript
+      - Trong development: được serve trực tiếp với HMR
+      - Trong production: được bundle và minify
+    -->
   </body>
 </html>
