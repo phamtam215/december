@@ -5,7 +5,9 @@ import { getMe } from '../controllers/user.controller'
 // Import authentication & authorization middlewares
 import { verifyToken } from '../middlewares/auth.middleware'
 import { authorize } from '../middlewares/authorize.middleware'
-import { UserRole } from '../entities/User'
+import { User, UserRole } from '../entities/User'
+import { getRepository } from 'typeorm'
+import { AppDataSource } from '../data-source'
 
 const router = Router()
 
@@ -20,7 +22,14 @@ router.get(
   verifyToken,
   authorize([UserRole.ADMIN]),
   async (req, res) => {
-    res.json({ message: 'Admin route - List all users' })
+    const userRepo = AppDataSource.getRepository(User)
+    // Lấy tất cả users, không trả password
+    const users = await userRepo.find({
+      select: ['id', 'email', 'createdAt', 'role'], // Không trả
+      // password để bảo mật
+      order: { createdAt: 'DESC' } // Sắp xếp theo thời gian tạo
+    })
+    res.json(users)
   }
 )
 

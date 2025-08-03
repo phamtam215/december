@@ -22,7 +22,7 @@ export const getMe = async (req: AuthRequest, res: Response) => {
     // req.user.id được decode từ JWT token
     const user = await userRepo.findOne({
       where: { id: req.user.id },
-      select: ['id', 'email', 'createdAt'] // Không trả password
+      select: ['id', 'email', 'createdAt', 'role'] // Không trả password
     })
 
     if (!user) {

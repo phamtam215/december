@@ -34,7 +34,7 @@ export const login = async (req: Request, res: Response) => {
 
   // Tạo JWT token với user info
   // Payload chứa id và email để identify user
-  const token = signToken({ id: user.id, email: user.email })
+  const token = signToken({ id: user.id, email: user.email, role: user.role })
 
   // Trả về token cho client
   // MỤC ĐÍCH CỦA JWT TOKEN:
