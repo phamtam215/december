@@ -4,10 +4,12 @@ import {
   Entity, // Decorator đánh dấu class này là một database table
   PrimaryGeneratedColumn, // Tự động tạo ID primary key
   Column, // Đánh dấu field là column trong database
-  CreateDateColumn // Tự động set timestamp khi tạo record
+  CreateDateColumn, // Tự động set timestamp khi tạo record
+  OneToMany
 } from 'typeorm'
 // Import validation decorators từ class-validator
 import { IsEmail, MinLength } from 'class-validator'
+import { Post } from './Post'
 
 /**
  * User Entity - Đại diện cho bảng "user" trong PostgreSQL
@@ -33,6 +35,9 @@ export class User {
   @Column() // TypeORM: Database column
   @MinLength(6) // class-validator: Minimum 6 characters
   password: string
+
+  @OneToMany(() => Post, post => post.author)
+  posts: Post[]
 
   // Timestamp tự động được tạo khi INSERT record
   // TypeORM sẽ tự động set thời gian hiện tại

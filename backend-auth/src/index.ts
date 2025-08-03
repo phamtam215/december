@@ -8,6 +8,8 @@ import cors from 'cors'
 import { AppDataSource } from './data-source'
 // Import auth routes
 import authRoutes from './routes/auth.routes'
+import userRoutes from './routes/user.routes'
+import postRoutes from './routes/posts.routes'
 
 // Tạo Express application instance
 const app = express()
@@ -18,6 +20,8 @@ app.use(express.json()) // Parse JSON request body
 
 // Routes setup
 app.use('/api', authRoutes) // Mount auth routes tại /api prefix
+app.use('/api', userRoutes)
+app.use('/api', postRoutes)
 
 // Database connection và server startup
 AppDataSource.initialize()

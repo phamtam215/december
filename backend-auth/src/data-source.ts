@@ -2,6 +2,8 @@
 import { DataSource } from 'typeorm'
 // Import User entity để TypeORM biết có những bảng nào
 import { User } from './entities/User'
+import { Post } from './entities/Post'
+
 // Import dotenv để đọc biến môi trường từ file .env
 import * as dotenv from 'dotenv'
 
@@ -17,7 +19,7 @@ export const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD || '', // Password (empty for local dev)
   database: process.env.DB_NAME || 'myapp_dev', // Tên database
   synchronize: true, // Tự động sync schema (chỉ dùng trong dev!)
-  entities: [User] // Danh sách các Entity/Table
+  entities: [User, Post] // Danh sách các Entity/Table
 })
 
 /* 
