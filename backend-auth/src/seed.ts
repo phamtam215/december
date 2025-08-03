@@ -2,8 +2,10 @@
 import 'reflect-metadata'
 // Import cấu hình database connection
 import { AppDataSource } from './data-source'
-// Import User entity để làm việc với bảng users
-import { User } from './entities/User'
+// Import User entity và UserRole enum
+import { User, UserRole } from './entities/User'
+// Import bcrypt để hash password
+import bcrypt from 'bcrypt'
 
 // Khởi tạo kết nối database và chạy seed data
 AppDataSource.initialize()
@@ -12,22 +14,36 @@ AppDataSource.initialize()
     // Repository là pattern của TypeORM để CRUD database
     const userRepo = AppDataSource.getRepository(User)
 
-    // Kiểm tra xem user admin đã tồn tại chưa
-    // findOneBy() tìm 1 record dựa trên điều kiện
-    const existing = await userRepo.findOneBy({ email: 'admin@example.com' })
-    if (existing) return console.log('⚠️ User already exists')
-
-    // Tạo instance User mới (chưa lưu vào DB)
-    // create() chỉ tạo object, chưa INSERT vào database
-    const user = userRepo.create({
-      email: 'admin@example.com',
-      password: '123456' // TODO: Hash password với bcrypt trong production
+    // 1. Tạo ADMIN user
+    const existingAdmin = await userRepo.findOneBy({
+      email: 'admin@example.com'
     })
+    if (!existingAdmin) {
+      const hashedPassword = await bcrypt.hash('admin123', 10)
+      const adminUser = userRepo.create({
+        email: 'admin@example.com',
+        password: hashedPassword,
+        role: UserRole.ADMIN
+      })
+      await userRepo.save(adminUser)
+      console.log('✅ Admin user created: admin@example.com / admin123')
+    }
 
-    // Lưu user vào database
-    // save() thực hiện INSERT query vào PostgreSQL
-    await userRepo.save(user)
-    console.log('✅ Seed user thành công')
+    // 2. Tạo regular USER
+    const existingUser = await userRepo.findOneBy({ email: 'user@example.com' })
+    if (!existingUser) {
+      const hashedPassword = await bcrypt.hash('user123', 10)
+      const regularUser = userRepo.create({
+        email: 'user@example.com',
+        password: hashedPassword,
+        role: UserRole.USER
+      })
+      await userRepo.save(regularUser)
+      console.log('✅ Regular user created: user@example.com / user123')
+    }
+
+    console.log('🎯 Seed completed! Test authorization với 2 users trên')
+    process.exit(0)
   })
   .catch(error => {
     // Xử lý lỗi nếu có vấn đề với database

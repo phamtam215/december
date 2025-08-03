@@ -11,6 +11,11 @@ import {
 import { IsEmail, MinLength } from 'class-validator'
 import { Post } from './Post'
 
+export enum UserRole {
+  USER = 'user',
+  ADMIN = 'admin'
+}
+
 /**
  * User Entity - Đại diện cho bảng "user" trong PostgreSQL
  *
@@ -36,6 +41,15 @@ export class User {
   @MinLength(6) // class-validator: Minimum 6 characters
   password: string
 
+  // Enum column để lưu role của user (USER hoặc ADMIN)
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.USER // Mặc định là USER role
+  })
+  role: UserRole
+
+  // One-to-Many relationship với Post entity
   @OneToMany(() => Post, post => post.author)
   posts: Post[]
 

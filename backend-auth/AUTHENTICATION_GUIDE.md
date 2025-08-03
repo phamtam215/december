@@ -6,10 +6,12 @@
 
 ```
 src/
-├── entities/User.ts              # Database entity + validation
+├── entities/User.ts              # Database entity + validation + UserRole enum
 ├── controllers/auth.controller.ts # Login/signup logic
 ├── middlewares/auth.middleware.ts # JWT verification
+├── middlewares/authorize.middleware.ts # Role-based authorization
 ├── middlewares/validate.ts       # DTO validation
+├── routes/user.routes.ts         # Protected routes with authorization
 ├── data-source.ts               # Database configuration
 ├── seed.ts                      # Sample data creation
 └── index.ts                     # Application entry point
@@ -33,6 +35,110 @@ POST /api/login → loginController → Verify password → Generate JWT → Ret
 
 ```
 GET /api/profile → verifyToken middleware → Extract user from JWT → Controller
+```
+
+### 4. Authorization Flow (Role-based)
+
+```
+GET /api/admin → verifyToken → authorize([ADMIN]) → Check user role → Controller
+```
+
+---
+
+## 🔒 Authorization System
+
+### User Roles
+
+```typescript
+enum UserRole {
+  USER = 'user', // Regular user - can access own profile
+  ADMIN = 'admin' // Admin user - can access all resources
+}
+```
+
+### Authorization Examples
+
+**Admin Only Route:**
+
+```typescript
+router.get('/users', verifyToken, authorize([UserRole.ADMIN]), controller)
+```
+
+**User or Admin Route:**
+
+```typescript
+router.get(
+  '/profile',
+  verifyToken,
+  authorize([UserRole.USER, UserRole.ADMIN]),
+  controller
+)
+```
+
+**Authentication Only (no role check):**
+
+```typescript
+router.get('/me', verifyToken, controller) // Any authenticated user
+```
+
+---
+
+## 🧪 Testing Authorization
+
+### Step 1: Seed test users
+
+```bash
+npm run seed  # Tạo admin@example.com (ADMIN) và user@example.com (USER)
+```
+
+### Step 2: Login để lấy JWT token
+
+**Login as ADMIN:**
+
+```bash
+POST /api/login
+{
+  "email": "admin@example.com",
+  "password": "admin123"
+}
+# Response: { "token": "eyJ..." }
+```
+
+**Login as USER:**
+
+```bash
+POST /api/login
+{
+  "email": "user@example.com",
+  "password": "user123"
+}
+# Response: { "token": "eyJ..." }
+```
+
+### Step 3: Test authorization routes
+
+**✅ Admin can access admin routes:**
+
+```bash
+GET /api/users
+Authorization: Bearer <admin_token>
+# Expected: 200 - Admin route success
+```
+
+**❌ User CANNOT access admin routes:**
+
+```bash
+GET /api/users
+Authorization: Bearer <user_token>
+# Expected: 403 - Forbidden
+```
+
+**✅ Both can access mixed routes:**
+
+```bash
+GET /api/profile
+Authorization: Bearer <any_token>
+# Expected: 200 - Success for both USER and ADMIN
 ```
 
 ---
