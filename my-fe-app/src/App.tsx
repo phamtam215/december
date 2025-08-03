@@ -1,204 +1,125 @@
 /**
- * APP COMPONENT - MAIN APPLICATION LOGIC
- * =======================================
- * Component chính với authentication flow
- * 
- * Features:
- * - Auto-login khi có token
- * - Conditional rendering (Login form vs User dashboard)
- * - API integration với protected routes
+ * APP COMPONENT - Main application with authentication flow
  */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// Import React hooks và components
-import { useEffect, useState } from "react"  // Hooks cho state và lifecycle
-import LoginForm from "./LoginForm"          // Component form đăng nhập
-import api from "./api"                      // Configured Axios instance
+import { useEffect, useState } from "react"
+import LoginForm from "./LoginForm"
+import UserList from "./components/UserList"
+import api from "./api"
 
-/**
- * MAIN APP COMPONENT
- * ==================
- * Root component với authentication logic
- */
 function App() {
-  // =============== STATE MANAGEMENT ===============
-  
-  /**
-   * User state để track authentication status
-   * - null: chưa đăng nhập hoặc đang loading
-   * - object: user đã đăng nhập với thông tin user
-   */
+  // Track authentication status: null = not logged in, object = logged in user
   const [user, setUser] = useState<any>(null)
-  /*
-    TypeScript note: Dùng 'any' để đơn giản
-    Trong production nên define proper User interface:
-    
-    interface User {
-      id: number
-      email: string
-      name?: string
-      createdAt: string
-    }
-    
-    const [user, setUser] = useState<User | null>(null)
-  */
 
-  // =============== AUTHENTICATION CHECK ===============
-  
-  /**
-   * useEffect hook để check authentication khi component mount
-   * Dependency array [] = chỉ chạy 1 lần khi component mount
-   */
+  // Check authentication on component mount
   useEffect(() => {
-    /**
-     * Async function để fetch user information
-     * Gọi API endpoint /me để verify token và lấy user info
-     */
     const fetchMe = async () => {
       try {
-        // Gọi protected API endpoint
         const res = await api.get("/me")
-        /*
-          API call này sẽ:
-          1. Tự động gắn Authorization header (từ interceptor)
-          2. Server verify token
-          3. Return user information nếu token valid
-          4. Throw error nếu token invalid/expired
-        */
-        
-        console.log("✅ User authenticated:", res.data.user)
-        
-        // Set user state với data từ API
         setUser(res.data.user)
-        /*
-          Khi setUser được gọi:
-          1. Component re-render
-          2. Conditional rendering sẽ show user dashboard thay vì login form
-        */
-        
+        console.log("✅ User authenticated:", res.data.user)
       } catch (err) {
-        // Xử lý lỗi authentication
-        console.error("❌ Không xác thực được:", err)
-        /*
-          Các trường hợp lỗi:
-          - Token không tồn tại
-          - Token expired
-          - Token invalid
-          - Server error
-          - Network error
-        */
-        
-        // Không set user = null vì state đã null sẵn
-        // User sẽ thấy LoginForm
+        console.error("❌ Authentication failed:", err)
+        // user stays null → show AuthForm
       }
     }
 
-    // Gọi function check authentication
     fetchMe()
-  }, [])  // Empty dependency array = chỉ chạy khi component mount
+  }, [])
 
-  // =============== CONDITIONAL RENDERING ===============
-  
-  /**
-   * Nếu user đã đăng nhập, hiển thị dashboard
-   */
+  // Logout handler
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    setUser(null)
+    console.log("🚪 User logged out")
+  }
+
+  // Show dashboard if user is logged in
   if (user) {
     return (
-      // User Dashboard UI
-      <div className="p-6">
-        {/* Welcome message */}
-        <h1 className="text-xl font-bold">
-          Chào {user.email} 👋
-        </h1>
-        {/*
-          Tailwind classes:
-          - text-xl: font-size 1.25rem (20px)
-          - font-bold: font-weight bold
-        */}
+      <div className="min-h-screen bg-gray-50">
+        {/* Header */}
+        <header className="bg-white shadow-sm border-b">
+          <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+              <h1 className="text-xl font-bold text-gray-900">
+                Chào {user.email} 👋
+              </h1>
+              <p className="text-sm text-gray-500">
+                Bạn đã đăng nhập thành công!
+              </p>
+            </div>
+            
+            <button
+              onClick={handleLogout}
+              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+            >
+              Đăng xuất
+            </button>
+          </div>
+        </header>
         
-        {/* Success message */}
-        <p className="text-sm text-gray-500">
-          Bạn đã đăng nhập thành công!
-        </p>
-        {/*
-          Tailwind classes:
-          - text-sm: font-size 0.875rem (14px)  
-          - text-gray-500: màu chữ xám
-        */}
-        
-        {/*
-          TODO: Có thể thêm các features khác:
-          - Logout button
-          - User profile
-          - Protected content
-          - Navigation menu
-        */}
+        {/* Main Content */}
+        <main className="max-w-6xl mx-auto px-6 py-8">
+          {/* Dashboard Cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* User Info Card */}
+            <div className="bg-white rounded-lg shadow p-6">
+              <h2 className="text-lg font-semibold mb-4 text-gray-900">
+                Thông tin tài khoản
+              </h2>
+              <div className="space-y-2">
+                <p className="text-sm">
+                  <span className="font-medium text-gray-700">Email:</span>
+                  <span className="ml-2 text-gray-600">{user.email}</span>
+                </p>
+                <p className="text-sm">
+                  <span className="font-medium text-gray-700">Role:</span>
+                  <span className="ml-2 text-gray-600">{user.role || 'User'}</span>
+                </p>
+                <p className="text-sm">
+                  <span className="font-medium text-gray-700">ID:</span>
+                  <span className="ml-2 text-gray-600">{user.id}</span>
+                </p>
+              </div>
+            </div>
+            
+            {/* Quick Stats Card */}
+            <div className="bg-white rounded-lg shadow p-6">
+              <h2 className="text-lg font-semibold mb-4 text-gray-900">
+                Thống kê nhanh
+              </h2>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-600">5</div>
+                  <div className="text-sm text-gray-500">Projects</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-600">12</div>
+                  <div className="text-sm text-gray-500">Tasks</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* User List Section */}
+          <div className="mt-8">
+            <div className="bg-white rounded-lg shadow">
+              <UserList />
+            </div>
+          </div>
+        </main>
       </div>
     )
   }
 
-  /**
-   * Nếu user chưa đăng nhập, hiển thị login form
-   */
-  return <LoginForm />
-  /*
-    Conditional rendering pattern:
-    - if (condition) return <Component1 />
-    - return <Component2 />
-    
-    React sẽ render:
-    - LoginForm nếu user = null
-    - Dashboard nếu user = object
-  */
+  // Show login form if user is not logged in
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <LoginForm />
+    </div>
+  )
 }
 
-// Export component để import ở main.tsx
 export default App
-
-/**
- * COMPONENT LIFECYCLE FLOW
- * =========================
- * 
- * 1. Component mount
- *    - user state = null
- *    - Render LoginForm
- * 
- * 2. useEffect chạy
- *    - fetchMe() được gọi
- *    - API call đến /me
- * 
- * 3a. Nếu có token hợp lệ:
- *     - API return user data
- *     - setUser(userData)
- *     - Component re-render
- *     - Hiển thị Dashboard
- * 
- * 3b. Nếu không có token hoặc token invalid:
- *     - API throw error
- *     - catch block chạy
- *     - user vẫn = null
- *     - Hiển thị LoginForm
- * 
- * 4. User đăng nhập thành công (từ LoginForm):
- *    - Token được lưu vào localStorage
- *    - Page refresh hoặc fetchMe() được gọi lại
- *    - Flow lặp lại từ bước 2
- */
-
-/**
- * SECURITY CONSIDERATIONS
- * =======================
- * 
- * ✅ Good practices trong code này:
- * - Token được lưu trong localStorage
- * - Automatic token attachment với interceptors
- * - Protected API calls để verify authentication
- * - Graceful error handling
- * 
- * 🔐 Additional security measures có thể thêm:
- * - Token refresh mechanism
- * - Automatic logout khi token expired
- * - HTTPS only trong production
- * - XSS protection với Content Security Policy
- * - Token expiration handling
- */

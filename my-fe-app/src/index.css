@@ -1,53 +1,14 @@
-/* 
-  TAILWIND CSS IMPORTS
-  ====================
-  File này import các layer của Tailwind CSS theo thứ tự cụ thể
-*/
+/**
+ * GLOBAL STYLES - Tailwind CSS imports and custom styles
+ */
 
-/* 
-  1. BASE LAYER - Reset CSS và base styles
-  Chứa: 
-  - CSS reset (normalize styles across browsers)
-  - Base element styles (h1, p, a, etc.)
-  - Custom base styles nếu có
-*/
+/* Tailwind CSS base styles, components, and utilities */
 @tailwind base;
-
-/* 
-  2. COMPONENTS LAYER - Component classes
-  Chứa:
-  - Pre-built component classes như .btn, .card
-  - Custom component classes mà bạn định nghĩa
-  - Complex UI patterns
-*/
 @tailwind components;
-
-/* 
-  3. UTILITIES LAYER - Utility classes  
-  Chứa:
-  - Single-purpose utility classes như .flex, .text-center, .bg-blue-500
-  - Responsive variants như .md:flex, .lg:text-xl
-  - State variants như .hover:bg-blue-700, .focus:ring-2
-  - Custom utilities nếu có
-*/
 @tailwind utilities;
 
-/*
-  LAYER ORDER QUAN TRỌNG:
-  - Base phải được load trước để reset styles
-  - Components sau đó để tạo các component styles
-  - Utilities cuối cùng để có thể override mọi styles khác
-  
-  Nếu thay đổi thứ tự, CSS có thể hoạt động không đúng!
-*/
-
-/* 
-  CUSTOM STYLES (nếu cần)
-  =======================
-  Bạn có thể thêm custom CSS ở đây, sau các Tailwind imports
-  Ví dụ:
-  
-  .custom-class {
-    background: linear-gradient(to right, #3b82f6, #1d4ed8);
-  }
-*/
+/* Custom global styles */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #f5f5f5;
+}
