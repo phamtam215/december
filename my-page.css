@@ -1,0 +1,130 @@
+/* ==== RESET CSS ==== */
+* {
+  margin: 0; /* Xóa khoảng cách mặc định */
+  padding: 0; /* Xóa padding mặc định */
+  box-sizing: border-box; /* Tính kích thước phần tử bao gồm padding + border */
+}
+
+body {
+  font-family: Arial, sans-serif; /* Font chữ mặc định */
+}
+
+/* ==== HEADER ==== */
+.header {
+  display: flex; /* Xếp các phần tử con theo hàng ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: space-between; /* Tạo khoảng cách đều hai bên */
+  height: 60px; /* Chiều cao header */
+  padding: 0 20px; /* Khoảng cách 2 bên */
+  background-color: rgb(0, 0, 0); /* Nền trắng */
+  border-bottom: 1px solid #181818; /* Đường viền dưới */
+}
+
+/* ==== LOGO ==== */
+.logo {
+  flex: 0 0 auto; /* Logo không co giãn */
+}
+
+.logo img {
+  height: 30px; /* Chiều cao ảnh logo */
+  width: auto; /* Tự động tính chiều rộng theo tỉ lệ */
+  display: block; /* Tránh khoảng trống dưới ảnh */
+  filter: brightness(0) invert(1); /* Biến màu tối thành trắng (chỉ định dạng svg) */
+}
+
+/* ==== NAVIGATION MENU ==== */
+.nav-links {
+  display: flex; /* Xếp ngang các link */
+  gap: 20px; /* Khoảng cách giữa các link */
+}
+
+.nav-links a {
+  text-decoration: none; /* Xóa gạch chân */
+  font-weight: bold; /* Chữ đậm */
+  color: white; /* Màu chữ */
+}
+
+.nav-links a:hover {
+  color: #555; /* Đổi màu khi hover */
+}
+
+/* ==== SEARCH BAR ==== */
+.search-bar {
+  display: flex; /* Xếp input và button ngang nhau */
+  align-items: center; /* Căn giữa theo chiều dọc */ 
+  flex: 1; /* Cho phép thanh tìm kiếm co giãn */
+  max-width: 400px; /* Giới hạn chiều rộng */
+  margin: 0 20px; /* Khoảng cách hai bên */
+}
+
+.search-bar input {
+  flex: 1; /* Input chiếm hết không gian trống */
+  padding: 8px 12px; /* Khoảng cách bên trong */
+  border: 1px solid #ccc; /* Viền xám nhạt */
+  border-radius: 4px 0 0 4px; /* Bo tròn bên trái */
+  outline: none; /* Xóa viền xanh khi focus */
+}
+
+.search-bar button {
+  background-color: black; /* Nền đen */
+  color: white; /* Màu chữ/icon trắng */
+  border: none; /* Xóa viền */
+  padding: 8px 12px; /* Khoảng cách bên trong */
+  border-radius: 0 4px 4px 0; /* Bo tròn bên phải */
+  cursor: pointer; /* Con trỏ dạng bàn tay */
+}
+
+.search-bar button:hover {
+  background-color: #333; /* Nền xám đậm khi hover */
+}
+
+/* ==== ICON BUTTONS ==== */
+.icon-buttons {
+  display: flex; /* Xếp ngang icon */
+  gap: 15px; /* Khoảng cách giữa icon */
+}
+
+.icon-buttons button {
+  background: none; /* Không nền */
+  border: none; /* Không viền */
+  cursor: pointer; /* Con trỏ bàn tay */
+  font-size: 18px; /* Kích thước icon */
+  color:white
+
+}
+
+.icon-buttons button:hover {
+  color: #555; /* Đổi màu khi hover */
+}
+
+/* ==== PROMO BAR ==== */
+
+/* Thanh quảng cáo cố định trên cùng */
+.promo-bar {
+  left: 0;
+  width: 100%; /* Chiếm toàn bộ chiều ngang */
+  background-color: #4d5453; /* Nền nổi bật */
+  white-space: nowrap; /* Không xuống dòng */
+  padding: 8px 0;
+  
+}
+
+/* Text chạy ngang */
+.promo-text {
+  display: inline-block;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  padding-left: 100%; /* Đẩy text ra ngoài màn hình bên phải */
+  animation: marquee 30s linear infinite;
+}
+
+/* Animation cho marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
