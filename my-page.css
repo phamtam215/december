@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: Arial, sans-serif; /* Font chữ mặc định */
+  font-family: 'Montserrat', sans-serif; /* Font chữ mặc định */
 }
 
 /* ==== HEADER ==== */
@@ -130,4 +130,61 @@ body {
   100% {
     transform: translateX(-100%);
   }
+}
+
+/* ==== DROPDOWN CHO USER ==== */
+.user-dropdown {
+  position: relative; /* Để menu con bám vào icon user */
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 40px; /* Đẩy xuống dưới icon */
+  right: 0; /* Canh phải */
+  background-color: white; /* Nền trắng */
+  border: 1px solid #ddd; /* Viền mờ */
+  border-radius: 4px;
+  min-width: auto; /* Chiều rộng tối thiểu */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Đổ bóng */
+  white-space: nowrap; /* Không xuống dòng */
+  z-index: 1000; /* Luôn nổi trên */
+  display: none; /* Ẩn menu mặc định */
+}
+
+.dropdown-menu a {
+  display: block; /* Mỗi link chiếm nguyên dòng */
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown-menu .logo-dropdown {
+  padding: 0 10px;
+}
+
+.dropdown-menu a:hover {
+  color: #344bf9;
+}
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 30px;
+  font-size: 14px;
+  background-color: #f0f0f0; /* Nền xám nhạt */
+}
+
+.user-dropdown::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: -30px;      /* mở rộng sang trái 30px */
+  width: calc(100% + 30px); /* chỉ cộng thêm 30px về trái */
+  height: 12px;     /* cao hơn để dễ rê chuột */
+}
+
+/* Khi hover vào user-dropdown thì hiển thị menu */
+.user-dropdown:hover .dropdown-menu {
+  display: block;
 }
