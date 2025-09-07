@@ -1,0 +1,203 @@
+/* Basic Reset - Reset styles để tránh default browser inconsistencies */
+/* Áp dụng cho tất cả elements (*) */
+* {
+  margin: 0; /* Xóa margin default của browser */
+  padding: 0; /* Xóa padding default của browser */
+  box-sizing: border-box; /* Bao gồm padding và border trong tính toán width/height */
+}
+
+/* Body: nền trang, căn giữa container, responsive padding */
+/* Business: tạo layout toàn trang, đảm bảo UX trên mobile */
+body {
+  background: #f5efe6; /* Màu nền ấm áp cho trang */
+  display: flex; /* Sử dụng flexbox để căn giữa */
+  justify-content: center; /* Căn ngang container */
+  align-items: center; /* Căn dọc container */
+  min-height: 100vh; /* Chiều cao tối thiểu full viewport */
+  padding: 1rem; /* Padding responsive cho mobile */
+  font-family: sans-serif; /* Font đơn giản, dễ đọc */
+}
+
+/* Container: wrapper chính, shadow để nổi bật */
+/* Business: chứa toàn bộ UI, responsive width */
+.container {
+  background-color: white; /* Nền trắng để contrast với body */
+  border-radius: 1rem; /* Bo góc mềm mại */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Shadow nhẹ để nổi bật */
+  width: 100%; /* Full width trên mobile */
+  max-width: 600px; /* Giới hạn max width trên desktop */
+  overflow: hidden; /* Ẩn nội dung tràn */
+  position: relative; /* Để position các elements con */
+}
+
+/* SCREENS - Quản lý hiển thị màn hình */
+/* Ẩn/hiện màn hình dựa trên class 'active' */
+/* Business: quản lý flow app (start -> quiz -> result) */
+.screen {
+  display: none; /* Ẩn mặc định */
+  padding: 2rem; /* Padding nội bộ */
+  text-align: center; /* Căn giữa text */
+}
+
+.screen.active {
+  display: block; /* Hiển thị khi có class 'active' */
+}
+
+/* START SCREEN - Style cho màn hình bắt đầu */
+/* Business: thu hút user bắt đầu quiz */
+#start-screen h1 {
+  color: #e86a33; /* Màu cam nổi bật */
+  margin-bottom: 20px; /* Khoảng cách dưới */
+  font-size: 2.5rem; /* Kích thước lớn để thu hút */
+}
+
+#start-screen p {
+  color: #666; /* Màu xám nhạt */
+  margin-bottom: 30px; /* Khoảng cách dưới */
+  font-size: 1.1rem; /* Kích thước vừa phải */
+}
+
+/* QUIZ SCREEN - Style cho màn hình quiz */
+/* Header quiz: câu hỏi và info */
+/* Business: hiển thị tiến trình, giữ user engaged */
+.quiz-header {
+  margin-bottom: 1rem; /* Khoảng cách dưới */
+}
+
+#question-text {
+  color: #333; /* Màu đen đậm */
+  font-size: 1.5rem; /* Kích thước lớn cho câu hỏi */
+  margin-bottom: 1rem; /* Khoảng cách dưới */
+  line-height: 1.4; /* Chiều cao dòng để dễ đọc */
+}
+
+.quiz-info {
+  display: flex; /* Flexbox để layout ngang */
+  justify-content: space-between; /* Phân tán đều */
+  color: #666; /* Màu xám */
+  margin-bottom: 10px; /* Khoảng cách dưới */
+}
+
+/* Answers container: flex column cho đáp án */
+/* Business: layout đáp án dễ chọn, gap để spacing */
+.answers-container {
+  display: flex; /* Flexbox */
+  flex-direction: column; /* Xếp dọc */
+  gap: 10px; /* Khoảng cách giữa items */
+  margin-bottom: 25px; /* Khoảng cách dưới */
+}
+
+/* Answer buttons: style hover, correct/incorrect */
+/* Business: feedback visual cho user, accessibility với hover */
+.answer-btn {
+  background-color: #f8f0e5; /* Nền nhạt */
+  color: #333; /* Text đen */
+  border: 2px solid #eadbc8; /* Viền nhạt */
+  border-radius: 10px; /* Bo góc */
+  padding: 1rem; /* Padding nội bộ */
+  cursor: pointer; /* Con trỏ pointer */
+  text-align: left; /* Căn trái text */
+  transition: all 0.3s ease; /* Transition mượt */
+}
+
+.answer-btn:hover {
+  background-color: #eadbc8; /* Nền sáng hơn khi hover */
+  border-color: #dac0ae; /* Viền đậm hơn */
+}
+
+.answer-btn.correct {
+  background-color: #e6fff0; /* Nền xanh lá nhạt */
+  border-color: #a3f0c4; /* Viền xanh */
+  color: #28a745; /* Text xanh đậm */
+}
+
+.answer-btn.incorrect {
+  background-color: #fff0f0; /* Nền đỏ nhạt */
+  border-color: #ffbdbd; /* Viền đỏ */
+  color: #dc3545; /* Text đỏ đậm */
+}
+
+/* Progress bar: visual tiến trình */
+/* Business: cho user biết còn bao nhiêu câu */
+.progress-bar {
+  height: 10px; /* Chiều cao thanh */
+  background-color: #f8f0e5; /* Nền nhạt */
+  border-radius: 5px; /* Bo góc */
+  overflow: hidden; /* Ẩn phần tràn */
+  margin-top: 20px; /* Khoảng cách trên */
+}
+
+.progress {
+  height: 100%; /* Full height của parent */
+  background-color: #e86a33; /* Màu cam */
+  width: 0%; /* Bắt đầu từ 0 */
+  transition: width 0.3s ease; /* Transition mượt cho width */
+}
+
+/* RESULT SCREEN - Style kết quả */
+/* Business: tổng kết, khuyến khích chơi lại */
+#result-screen h1 {
+  color: #e86a33; /* Màu cam */
+  margin-bottom: 30px; /* Khoảng cách dưới */
+}
+
+.result-info {
+  background-color: #f8f0e5; /* Nền nhạt */
+  border-radius: 10px; /* Bo góc */
+  padding: 20px; /* Padding */
+  margin-bottom: 30px; /* Khoảng cách dưới */
+}
+
+.result-info p {
+  font-size: 1.2rem; /* Kích thước text */
+  color: #333; /* Màu đen */
+  margin-bottom: 1rem; /* Khoảng cách dưới */
+}
+
+#result-message {
+  font-size: 1.5rem; /* Kích thước lớn */
+  font-weight: 600; /* In đậm */
+  color: #e86a33; /* Màu cam */
+}
+
+/* Buttons chung: style primary */
+/* Business: consistent UI cho actions */
+button {
+  background-color: #e86a33; /* Nền cam */
+  color: white; /* Text trắng */
+  border: none; /* Không viền */
+  border-radius: 10px; /* Bo góc */
+  padding: 15px 30px; /* Padding */
+  font-size: 1.1rem; /* Kích thước font */
+  cursor: pointer; /* Con trỏ */
+  transition: background-color 0.3s ease; /* Transition */
+}
+
+button:hover {
+  background-color: #d45b28; /* Nền cam đậm hơn khi hover */
+}
+
+/* RESPONSIVE DESIGN - Mobile tweaks */
+/* Business: đảm bảo UX trên màn hình nhỏ */
+@media (max-width: 500px) { /* Áp dụng khi width <= 500px */
+  .screen {
+    padding: 1rem; /* Giảm padding */
+  }
+
+  #start-screen h1 {
+    font-size: 2rem; /* Giảm font size */
+  }
+
+  #question-text {
+    font-size: 1.3rem; /* Giảm font size */
+  }
+
+  .answer-btn {
+    padding: 12px; /* Giảm padding */
+  }
+
+  button {
+    padding: 12px 25px; /* Giảm padding */
+    font-size: 1rem; /* Giảm font size */
+  }
+}

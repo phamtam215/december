@@ -1,0 +1,145 @@
+/* Basic Reset */
+@import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
+
+/* 
+1. Reset
+*/
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;;
+}
+
+body{
+  background-color: rgba(72, 154, 186, 0.5);
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.container{
+  background: linear-gradient(45deg, #66eacd, #4b8ea2);
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+/* 
+- tạo viền dưới, với absolute để không ảnh hưởng đến flow 
+- after sẽ tạo 1 box dưới thẻ h1 relative
+- absolute hay đi với relative
+*/
+h1::after {
+  content: "";              /* Bắt buộc phải có cho pseudo-element xuất hiện (ngay cả khi rỗng). Đây sẽ tạo ra một box "ảo" bên trong h1. */
+  position: absolute;       /* Định vị tuyệt đối so với phần tử cha (h1) có position: relative. Nghĩa là box này thoát khỏi flow bình thường, không chiếm chỗ. */
+  bottom: 0;                /* Canh box của after nằm ngay tại cạnh đáy của h1 (tính theo box h1). */
+  left: 50%;                /* Đặt điểm gốc bên trái của box ở chính giữa (50% chiều ngang của h1). */
+  transform: translateX(-50%); /* Dịch box ngược lại 50% chiều rộng của nó → giúp căn giữa hoàn hảo. Nếu không, box sẽ lệch sang phải vì "left: 50%" canh theo cạnh trái. */
+  width: 50%;               /* Độ rộng bằng 50% chiều ngang của h1 (nửa độ dài). */
+  height: 3px;              /* Độ dày của gạch (chiều cao box). */
+  background-color: #667eea; /* Màu nền của box, chính là màu gạch. */
+  border-radius: 2px;        /* Bo tròn nhẹ 2px ở viền, để gạch trông mềm mại hơn thay vì cạnh sắc. */
+}
+
+#generate-btn{
+ background: linear-gradient(45deg, #667eea, #764ba2); 
+padding: 1rem;
+border-radius: 1rem;
+cursor: pointer;
+font-size: 1rem;
+font-weight: 500;
+color: white;
+margin-bottom: 2rem;
+border: solid black;
+}
+
+#generate-btn:hover {
+  /* rê chuột thì đẩy box lên */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(102, 126, 234, 0.3);
+}
+
+
+#generate-btn:active {
+/* click chuột thì đẩy box xuống tạo cảm giác được bấm */
+  transform: translateY(0);
+}
+
+.palette-container{
+  display: grid;
+  gap: 1rem;
+  /* Định nghĩa số cột trong grid:
+     - `minmax(130px, 1fr)` = mỗi cột ít nhất 130px, nhiều nhất chiếm 1 phần linh hoạt.
+     - `auto-fit` = tự động thêm bớt số cột dựa vào chiều rộng container, để item luôn vừa.
+     👉 Kết quả: responsive grid. Khi màn hình rộng thì nhiều cột, khi hẹp thì ít cột (xuống hàng). */
+  grid-template-rows: repeat(2, 1fr); /* 2 hàng */
+  grid-auto-flow: column;             /* đổ item theo cột */
+  grid-auto-columns: minmax(130px, 1fr); /* cột min 130px */
+}
+
+.color-box {
+  border-radius: 1rem;
+  border: solid black;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  overflow: hidden;
+}
+
+.color-box:hover {
+  transform: translateY(-5px);
+}
+
+.color {
+  height: 120px;
+  cursor: pointer;
+}
+
+.color-info {
+  background-color: #fff;
+  padding: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.hex-value {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* thuộc tính transaction tác động
+khi color thay đổi bởi cái gì đó làm thay đổi màu thì sau 1 khoảng thời gian là delay thì sẽ trở về màu cũ
+(case này bị đổi bởi hover) sau đó 2s về lại màu đỏ */
+.copy-btn {
+  cursor: pointer;
+  color: #eb0808;
+  transition: color 1s;
+}
+
+.copy-btn:hover {
+  color: #000000;
+}
+
+/* chỉ áp dụng các rule bên trong khi màn hình (viewport) nhỏ hơn hoặc bằng 768px.
+Khi màn hình > 768px: cột ≥ 130px.
+Khi màn hình ≤ 768px: cột ≥ 100px 
+→ box nhỏ hơn để fit nhiều cột trên màn hình nhỏ.*/
+
+@media (max-width: 768px) {
+  .palette-container {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+} 

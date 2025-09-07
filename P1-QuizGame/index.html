@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!-- Khai báo loại tài liệu HTML5, đảm bảo trình duyệt hiểu đúng chuẩn -->
+<html lang="en">
+  <!-- Ngôn ngữ trang là tiếng Anh, hỗ trợ accessibility và SEO -->
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Đặt encoding UTF-8 để hiển thị ký tự đặc biệt đúng -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Responsive design: viewport theo kích thước thiết bị, zoom ban đầu 100% -->
+    <title>Quiz Game</title>
+    <!-- Tiêu đề trang hiển thị trên tab trình duyệt -->
+    <link rel="stylesheet" href="style.css" />
+    <!-- Liên kết file CSS để style trang -->
+  </head>
+  <body>
+    <!-- Container chính chứa toàn bộ nội dung quiz -->
+    <div class="container">
+      <!-- Màn hình bắt đầu: hiển thị khi load trang, ẩn khi bắt đầu quiz -->  
+      <div class="screen active" id="start-screen">
+        <h1>Quiz Time!</h1>
+        <!-- Tiêu đề chính của app -->
+        <p>Test your knowledge with these fun questions</p>
+        <!-- Mô tả ngắn về mục đích app -->
+        <button id="start-btn">Start Quiz</button>
+        <!-- Nút bắt đầu quiz, kích hoạt sự kiện click -->
+      </div>
+
+      <!-- Màn hình quiz: hiển thị câu hỏi và đáp án -->
+      <div class="screen" id="quiz-screen">
+        <div class="quiz-header">
+          <!-- Header chứa câu hỏi và thông tin tiến trình -->
+          <h2 id="question-text">Question goes here</h2>
+          <!-- Hiển thị nội dung câu hỏi, cập nhật bởi JS -->
+          <div class="quiz-info">
+            <!-- Thông tin tiến trình: câu hiện tại / tổng số, điểm -->
+            <p>
+              Question <span id="current-question">1</span> of <span id="total-questions">5</span>
+            </p>
+            <p>Score: <span id="score">0</span></p>
+          </div>
+        </div>
+
+        <div id="answers-container" class="answers-container">
+          <!-- Container cho các nút đáp án, JS sẽ thêm button vào đây -->
+        </div>
+
+        <div class="progress-bar">
+          <!-- Thanh tiến trình hiển thị % hoàn thành -->
+          <div id="progress" class="progress"></div>
+        </div>
+      </div>
+
+      <!-- Màn hình kết quả: hiển thị sau khi hoàn thành quiz -->
+      <div id="result-screen" class="screen">
+        <h1>Quiz Results</h1>
+        <!-- Tiêu đề kết quả -->
+        <div class="result-info">
+          <!-- Hiển thị điểm số và thông điệp -->
+          <p>You scored <span id="final-score">0</span> out of <span id="max-score">5</span></p>
+          <div id="result-message">Good job!</div>
+        </div>
+        <button id="restart-btn">Restart Quiz</button>
+        <!-- Nút chơi lại, reset trạng thái -->
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+    <!-- Liên kết file JS để logic tương tác -->
+  </body>
+</html>
