@@ -1,0 +1,100 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #f7f9fc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  /* Nếu body không có min-height / height:
+Chiều cao body chỉ bằng nội dung bên trong.
+Flexbox sẽ căn giữa trong chính chiều cao của body, nhưng vì body quá thấp (vì chưa set chiều cao) → bạn không thấy gì thay đổi.
+Khi thêm min-height: 100vh:
+Body bây giờ cao bằng toàn bộ viewport.
+align-items: center sẽ căn giữa nội dung trên toàn bộ chiều cao màn hình. */
+  
+}
+
+.container {
+  text-align: center;
+  width: 100%;
+  padding: 1rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+
+/* 
+Khi viewport < 1200px → container chiếm toàn bộ width = 100%, margin auto không ảnh hưởng.
+Khi viewport > 1200px → container dừng lại ở 1200px, margin auto căn giữa container trong màn hình rộng. 
+*/
+.board {
+display: flex;
+justify-content: space-around; /* Căn các item ngang đều nhau, khoảng cách giữa các item và 2 mép container bằng nhau */
+align-items: flex-start;  /* Căn các item lên đầu theo trục dọc (vertical) */
+width: 100%;              /* Chiếm toàn bộ chiều ngang của phần tử cha */
+max-width: 1200px;        /* Giới hạn chiều ngang tối đa của container, không rộng hơn 1200px */
+/* Viewport rộng 1600px → container chỉ rộng 1200px.
+Không có margin auto → container sẽ nằm sát bên trái màn hình, không căn giữa. */
+margin: 0 auto;           /* Căn container giữa màn hình khi chiều ngang thực tế < max-width */
+gap: 20px;                /* Khoảng cách giữa các item flex (không tính margin của container) */
+
+}
+
+.list {
+  background-color: #e3e4e8;
+  padding: 1rem;
+  border-radius: 8px;
+  width: 30%;
+  min-height: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.list h2 {
+  color: #555;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.card {
+  background-color: white;
+  color: #333;
+  padding: 1rem;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  cursor: grab;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:active {
+  cursor: grabbing;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.list.over {
+  background-color: #c89e7c;
+}
+
+@media (max-width: 768px) {
+  .board {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .list {
+    width: 80%;
+    margin-bottom: 20px;
+  }
+}
+
+
