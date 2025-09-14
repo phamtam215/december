@@ -1,0 +1,396 @@
+/* 1. Reset all elements to avoid default browser inconsistencies */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+ 
+/* 2. Chọn phần tử body để áp dụng kiểu dáng cho toàn bộ trang */
+body { 
+  background: linear-gradient(135deg, #2e8b57, #a8d5ba); /* Đặt nền gradient chéo từ xanh lục đậm sang xanh lục nhạt */
+  /* giải thích ở mục lục field 1 */
+  min-height: 100vh; /* Đảm bảo body chiếm ít nhất chiều cao đầy đủ của viewport khi phần content ít nhưng vẫn đảm boả full chiều cao*/
+  font-family: "Poppins", sans-serif; /* Áp dụng font Poppins với fallback sans-serif */
+  display: flex; /* Làm cho body trở thành container flexbox để bố cục */
+  align-items: center; /* Căn giữa các phần tử con theo chiều dọc trong container flex */
+  justify-content: center; /* Căn giữa các phần tử con theo chiều ngang trong container flex */
+  padding: 20px;
+  color: #2d3436;
+}
+
+/* 3. CSS chung cho toàn bộ khung */
+.container {
+  width: 100%;
+  max-width: 1200px; /* Giới hạn chiều rộng tối đa của container để tránh quá rộng trên màn hình lớn, thẻ div nên kéo dài hết màn hình */
+  background: linear-gradient(135deg, #f6f6f6, #303934);
+  padding: 2rem;
+  border-radius: 24px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* 4. Các text tiêu đề */
+h1 {
+  text-align: center;
+  color: #000000;
+  margin-bottom: 35px;
+  font-size: 2.2rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+h2 {
+  color: #000000;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+/* 5. CSS cho phần hiển thị số dư */
+.balance-container {
+  text-align: center;
+  margin-bottom: 35px;
+  padding: 24px;
+  background: linear-gradient(135deg, #a7aaaf, #303934);
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(223, 221, 221, 0.05);
+}
+
+/* 6. CSS lại số tiền balance */
+.balance-container h1 {
+  font-size: 3rem;
+  margin: 15px 0;
+}
+
+/*==========================*/
+
+/* 7. CSS cho phần tóm tắt income và expenses */
+.summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 24px;
+  color:#000000
+}
+
+/* 7.1 CSS cho income và expenses */
+.income,
+.expenses {
+  background: linear-gradient(135deg, #ffffff, #303934);
+  padding: 24px;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.income:hover,
+.expenses:hover {
+  transform: translateY(-4px); /* Hiệu ứng hover nâng lên nhẹ */
+}
+
+
+.income h3 {
+  color: #04785b;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.expenses h3 {
+  color: #7e0303;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* 7.1.1 CSS cho amount của income và expenses */
+.income p {
+  color: #04785b;
+  margin-top: 8px;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.expenses p {
+  color: #7e0303;
+  margin-top: 8px;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+/*==========================*/
+
+/* 8. CSS cho phần transactions và form điền transaction */
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px; /* Khoảng cách giữa các cột */
+}
+
+/* 8.1 CSS cho  form điền transaction */
+.form-container {
+  background: linear-gradient(135deg, #ffffff, #303934);
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+/* 8.1.1 CSS cho  form điền transaction */
+.form-container form {
+  height: 100%;
+  display: flex;
+  flex-direction: column; /* Sắp xếp các phần tử con theo cột 1 cột chỉ 1 phần tử */
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #000000;
+  font-weight: 500;
+}
+
+input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background-color: white;
+}
+
+/* 8.1.2 CSS cho input khi click chuột vào thì tạo khung đen*/
+input:focus {
+  outline: none;
+  border-color: #040404;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+input:hover {
+  border-color: #040404;
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
+}
+
+small {
+  color: #000000;
+  font-size: 0.875rem;
+  margin-top: 4px;
+  display: block;
+}
+
+/* 8.1.3 CSS cho các button có thuộc tính submit*/
+button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #a4f4d2, #303934);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+  margin-top: auto; /* margin-top: auto (trong flex-direction: column) → đẩy phần tử xuống cuối */
+  /* auto = phần margin co giãn linh hoạt, sẽ chiếm hết không gian còn lại mà không được quy định sẵn */
+}
+
+button[type="submit"]:hover {
+  transform: translateY(-2px); /* Hiệu ứng hover nâng lên nhẹ */
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
+}
+
+button[type="submit"]:active {
+  transform: translateY(0);
+} /*Khi nhấn giữ nút, trở về vị trí ban đầu, gây hiệu ứng bouncing*/
+
+
+/* 9. Css cho các transaction được add vào */
+.transaction-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#transaction-list {
+  list-style: none;
+  max-height: 200px; /* Giới hạn chiều cao tối đa của danh sách giao dịch */
+  overflow-y: auto; /* Cho phép cuộn dọc nếu danh sách vượt quá chiều cao tối đa */
+  padding-right: 8px;
+  flex-grow: 1; /* Cho phép phần tử này mở rộng để chiếm không gian còn lại trong container flex */
+}
+
+/* 9.1 Css cho phần scroll bar */
+#transaction-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+#transaction-list::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  border-radius: 4px;
+}
+#transaction-list::-webkit-scrollbar-thumb {
+  background-color: #cbd5e0;
+  border-radius: 4px;
+}
+#transaction-list::-webkit-scrollbar-thumb:hover {
+  background-color: #a0aec0;
+}
+
+/* 9.1 Css cho các transaction trong danh sách */
+.transaction {
+  display: flex;
+  justify-content: space-between; /* Căn đều các phần tử con theo chiều ngang */
+  align-items: center; /* Căn giữa các phần tử con theo chiều dọc */
+  padding: 1rem 1.2rem;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  border-right: 5px solid rgb(61, 59, 59);
+  animation: slideIn 0.3s ease;
+  color:#ffff
+}
+
+.transaction:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+/* 9.1.1 Css cho transaction có class income và expense */
+.transaction.income {
+  background: linear-gradient(135deg, #2e8b57, #a8d5ba); /* Đặt nền gradient chéo từ xanh lục đậm sang xanh lục nhạt */
+}
+
+.transaction.expenses {
+  background: linear-gradient(135deg, #7e0303, #edb3b3); /* Đặt nền gradient chéo từ đỏ đậm sang đỏ nhạt */
+}
+/* Đảm bảo nút xoá ẩn nhưng luôn chiếm chỗ element transaction */
+.transaction .delete-btn {
+  background: none;
+  border: none;
+  color: #000000;
+  cursor: pointer;
+  font-size: 1.4rem;
+  opacity: 0;
+  transition: all 0.2s ease;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-left: 12px;
+}
+/* Hiện nút xoá khi hover vào transaction */
+.transaction:hover .delete-btn {
+  opacity: 1;
+}
+
+/* Animation cho các transaction khi được thêm vào  */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+.transaction .delete-btn:hover {
+  /* background-color: #fee2e2; */
+  color:red;
+  transform: scale(1.1);
+}
+
+
+
+
+
+/* Responsive design cho tablet và mobile */
+/* Áp dụng khi width <= 900px (tablet) */
+@media (max-width: 900px) {
+  /* Chuyển main-content từ 2 cột sang 1 cột để tiết kiệm space ngang */
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+
+  /* Tăng max-height cho transaction list để hiển thị nhiều item hơn trên tablet */
+  #transaction-list {
+    max-height: 300px;
+  }
+}
+
+/* Áp dụng khi width <= 480px (mobile) */
+@media (max-width: 480px) {
+  /* Giảm padding container để tiết kiệm space trên màn hình nhỏ */
+  .container {
+    padding: 24px;
+  }
+
+  /* Chuyển summary từ 2 cột sang 1 cột, giảm gap */
+  .summary {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Giảm font size cho balance để vừa màn hình mobile */
+  .balance-container h1 {
+    font-size: 2.5rem;
+  }
+
+  /* Giảm font size cho income/expenses amounts */
+  .income p,
+  .expenses p {
+    font-size: 1.5rem;
+  }
+
+  /* Giảm padding cho transaction items */
+  .transaction {
+    padding: 14px 16px;
+  }
+
+  /* Giảm font size cho tiêu đề chính */
+  h1 {
+    font-size: 1.8rem;
+  }
+} 
+
+
+/*. 
+
+MỤC LỤC GIẢI THÍCH
+
+1. Giải thích về min-height: 100vh trong CSS
+min-height: 100vh được áp dụng cho phần tử body. Đây là một thuộc tính quan trọng để đảm bảo bố cục trang web hoạt động như mong muốn. Hãy phân tích chi tiết:
+
+Chức năng của min-height: 100vh:
+- min-height: Thuộc tính này đặt chiều cao tối thiểu cho phần tử. Nếu nội dung bên trong ngắn hơn giá trị này, phần tử vẫn sẽ chiếm ít nhất chiều cao đó.
+- 100vh: Đây là đơn vị tương đối với chiều cao của viewport (khung nhìn của trình duyệt). 1vh = 1% chiều cao viewport, nên 100vh = 100% chiều cao viewport, tức là toàn bộ chiều cao màn hình.
+- Mục đích: Trong trường hợp này, nó đảm bảo body luôn chiếm ít nhất toàn bộ chiều cao màn hình, ngay cả khi nội dung trang ngắn (ví dụ: chỉ có một đoạn văn bản nhỏ). Điều này giúp nền gradient (background: linear-gradient(...)) phủ kín toàn bộ màn hình, tạo cảm giác trang web "đầy đặn" và chuyên nghiệp.
+- Nếu không có min-height: 100vh, chuyện gì xảy ra?
+  - Vấn đề chính: Phần tử body sẽ chỉ chiếm chiều cao bằng nội dung bên trong nó. Nếu nội dung ngắn (ví dụ: chỉ có một tiêu đề và vài dòng văn bản), body sẽ co lại, không phủ kín toàn bộ chiều cao viewport.
+  - Hậu quả cụ thể:
+    - Nền gradient không phủ kín: Nền chỉ hiển thị ở phần có nội dung, còn phần dưới màn hình sẽ có nền mặc định (thường là trắng hoặc màu của phần tử cha). Điều này làm mất hiệu ứng gradient toàn màn hình.
+    - Vấn đề bố cục: Các phần tử con (như container chính) được căn giữa bằng display: flex và align-items: center có thể không căn giữa chính xác theo chiều dọc toàn màn hình, dẫn đến layout trông "lỏng lẻo" hoặc không cân đối.
+    - Trên các thiết bị khác nhau: Nếu viewport cao hơn nội dung, phần dưới sẽ trống, gây cảm giác trang web chưa hoàn thiện. Ví dụ, trên màn hình lớn hoặc khi nội dung ít, bạn sẽ thấy khoảng trắng ở cuối trang.
+  Ví dụ thực tế: Giả sử trang chỉ có một nút bấm. Với min-height, nút sẽ căn giữa toàn màn hình. Không có, nút chỉ căn giữa trong một vùng nhỏ, và phần dưới màn hình trống.
+  Lưu ý "gotcha" (điểm dễ nhầm lẫn):
+  Nếu nội dung dài hơn 100vh (ví dụ: trang có nhiều văn bản cuộn), min-height không ảnh hưởng gì vì chiều cao thực tế sẽ lớn hơn. Nhưng nếu nội dung ngắn, nó rất quan trọng.
+  Đừng nhầm lẫn với height: 100vh – height cố định chiều cao, có thể gây vấn đề nếu nội dung vượt quá (cuộn bị cắt). min-height linh hoạt hơn.
+  Nếu bạn muốn thử nghiệm, hãy tạm thời comment dòng min-height: 100vh; trong file style.css và reload trang để thấy sự khác biệt. Nếu cần cải thiện (ví dụ: thêm overflow: auto để xử lý nội dung dài), hãy cho tôi biết thêm chi tiết về dự án! 
+- Tại sao không cần min-width?
+Bạn hỏi tại sao không cần thiết lập min-width tương tự. Lý do chính là vì chiều rộng (width) của body thường đã là fluid (linh hoạt) và lấp đầy toàn bộ chiều rộng viewport theo mặc định, không giống như chiều cao. Giải thích chi tiết:
+
+Chiều rộng mặc định của body: Trong CSS, body (hoặc html) thường có width: 100% ngầm định, nghĩa là nó tự động chiếm toàn bộ chiều rộng của container cha (thường là viewport). Bạn không cần min-width vì chiều rộng đã được đảm bảo lấp đầy, trừ khi bạn muốn giới hạn tối thiểu (ví dụ: ngăn nội dung bị quá hẹp trên màn hình lớn).
+Khi nào cần min-width? Chỉ khi bạn muốn đặt giới hạn tối thiểu cho chiều rộng, chẳng hạn:
+Tránh nội dung bị co lại quá nhỏ trên thiết bị lớn (ví dụ: min-width: 320px cho responsive design).
+Hoặc nếu bạn đang dùng layout cố định (fixed width), nhưng điều này ít phổ biến với body.
+Ví dụ so sánh:
+Với min-height: 100vh: Đảm bảo trang không ngắn hơn màn hình.
+Với min-width: Thường không cần cho body, vì chiều rộng đã tự động lấp đầy. Nếu bạn muốn thử, có thể thêm min-width: 100vw (100% chiều rộng viewport), nhưng nó redundant (thừa thãi) vì width: 100% đã làm vậy.
+Nếu bạn đang làm responsive design, hãy cân nhắc dùng media queries để điều chỉnh min-width cho các breakpoint (ví dụ: mobile). Nếu có context cụ thể hơn (như layout của trang), tôi có thể giải thích sâu hơn!
+  ================================================================================================================================================================ 
+  */
